@@ -10,6 +10,13 @@ public class Promotions {
         this.promotions = promotions;
     }
 
+    public Promotion findPromotionsByName(final String promotionName) {
+        return promotions.stream()
+                .filter(promotion -> promotion.getName().equals(promotionName))
+                .findFirst()
+                .orElse(null);
+    }
+
     public List<Promotion> getPromotions() {
         return promotions;
     }
