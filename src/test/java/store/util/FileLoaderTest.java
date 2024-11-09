@@ -16,7 +16,7 @@ class FileLoaderTest {
 
         // then
         assertThat(loadPromotions.getFirst()).isEqualTo("탄산2+1,2,1,2024-01-01,2024-12-31");
-        assertThat(loadPromotions.getLast()).isEqualTo("반짝할인,1,1,2024-11-01,2024-11-30");
+        assertThat(loadPromotions.getLast()).isEqualTo("반짝할인,1,1,2024-10-01,2024-10-30");
     }
 
     @DisplayName("[통과] 정상적으로 products.md 불러오기")
