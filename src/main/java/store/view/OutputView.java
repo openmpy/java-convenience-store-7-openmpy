@@ -13,14 +13,30 @@ public class OutputView {
 
     public static void printProductsInfo(final Products products) {
         for (final Product product : products.getProducts()) {
+            printProductInfoWithPromotion(product);
+            printProductInfo(product);
+        }
+        System.out.println();
+    }
+
+    private static void printProductInfoWithPromotion(final Product product) {
+        if (product.getPromotionName() != null) {
             final String formatted = String.format("- %s %s원 %s %s",
                     product.getName(),
                     product.getFormattedPrice(),
-                    product.getQuantityState(product.getCustomQuantity()),
-                    product.getCustomPromotionName()
+                    product.getQuantityState(product.getPromotionQuantity()),
+                    product.getPromotionName()
             );
             System.out.println(formatted);
         }
-        System.out.println();
+    }
+
+    private static void printProductInfo(final Product product) {
+        final String formatted = String.format("- %s %s원 %s",
+                product.getName(),
+                product.getFormattedPrice(),
+                product.getQuantityState(product.getDefaultQuantity())
+        );
+        System.out.println(formatted);
     }
 }
