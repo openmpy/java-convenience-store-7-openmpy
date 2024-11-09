@@ -11,7 +11,7 @@ class ProductTest {
     @Test
     void product_test_01() {
         // when
-        final Product product = new Product("콜라", 1000, 10, "2+1");
+        final Product product = new Product("콜라", 1000, 0, 10, "2+1");
 
         // then
         assertThat(product.getName()).isEqualTo("콜라");
@@ -25,7 +25,7 @@ class ProductTest {
     @Test
     void product_test_02() {
         // when
-        final Product product = new Product("콜라", 1000, 10, "null");
+        final Product product = new Product("콜라", 1000, 10, 0, null);
 
         // then
         assertThat(product.getName()).isEqualTo("콜라");

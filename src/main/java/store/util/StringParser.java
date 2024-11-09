@@ -7,6 +7,8 @@ import store.domain.Promotion;
 
 public class StringParser {
 
+    private static final String NULL = "null";
+
     public static Promotion parsePromotion(final String string) {
         final List<String> items = StringSplitter.splitComma(string);
         final String promotionName = items.get(0);
@@ -23,6 +25,10 @@ public class StringParser {
         final int price = Integer.parseInt(items.get(1));
         final int quantity = Integer.parseInt(items.get(2));
         final String promotionName = items.get(3);
-        return new Product(productName, price, quantity, promotionName);
+
+        if (promotionName.equals(NULL)) {
+            return new Product(productName, price, quantity, 0, null);
+        }
+        return new Product(productName, price, 0, quantity, promotionName);
     }
 }
