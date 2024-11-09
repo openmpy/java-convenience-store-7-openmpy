@@ -5,21 +5,21 @@ import java.time.LocalDate;
 public class Promotion {
 
     private final String name;
-    private final int buyAmount;
-    private final int getAmount;
+    private final int buyQuantity;
+    private final int getQuantity;
     private final LocalDate startDate;
     private final LocalDate endDate;
 
     public Promotion(
             final String name,
-            final int buyAmount,
-            final int getAmount,
+            final int buyQuantity,
+            final int getQuantity,
             final LocalDate startDate,
             final LocalDate endDate
     ) {
         this.name = name;
-        this.buyAmount = buyAmount;
-        this.getAmount = getAmount;
+        this.buyQuantity = buyQuantity;
+        this.getQuantity = getQuantity;
         this.startDate = startDate;
         this.endDate = endDate;
     }
@@ -28,12 +28,12 @@ public class Promotion {
         return name;
     }
 
-    public int getBuyAmount() {
-        return buyAmount;
+    public int getBuyQuantity() {
+        return buyQuantity;
     }
 
-    public int getGetAmount() {
-        return getAmount;
+    public int getGetQuantity() {
+        return getQuantity;
     }
 
     public LocalDate getStartDate() {

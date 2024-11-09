@@ -21,8 +21,8 @@ class StringParserTest {
 
         // then
         assertThat(promotion.getName()).isEqualTo("탄산2+1");
-        assertThat(promotion.getBuyAmount()).isEqualTo(2);
-        assertThat(promotion.getGetAmount()).isEqualTo(1);
+        assertThat(promotion.getBuyQuantity()).isEqualTo(2);
+        assertThat(promotion.getGetQuantity()).isEqualTo(1);
         assertThat(promotion.getStartDate()).isEqualTo(LocalDate.of(2024, 1, 1));
         assertThat(promotion.getEndDate()).isEqualTo(LocalDate.of(2024, 12, 31));
     }
