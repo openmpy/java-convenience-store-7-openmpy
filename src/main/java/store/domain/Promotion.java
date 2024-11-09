@@ -43,4 +43,15 @@ public class Promotion {
     public LocalDate getEndDate() {
         return endDate;
     }
+
+    public int getTotalQuantity() {
+        return buyQuantity + getQuantity;
+    }
+
+    public int getBonusProduct(int quantity) {
+        if (quantity == buyQuantity) {
+            return getQuantity;
+        }
+        return quantity / getTotalQuantity();
+    }
 }
