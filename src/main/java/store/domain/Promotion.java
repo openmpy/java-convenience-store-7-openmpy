@@ -24,6 +24,11 @@ public class Promotion {
         this.endDate = endDate;
     }
 
+    public boolean isApplyDate(final LocalDate date) {
+        return (date.isEqual(startDate) || date.isAfter(startDate)) &&
+                (date.isEqual(endDate) || date.isBefore(endDate));
+    }
+
     public String getName() {
         return name;
     }
