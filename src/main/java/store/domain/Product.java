@@ -1,8 +1,13 @@
 package store.domain;
 
+import store.util.NumberFormatter;
+
 public class Product {
 
     private static final String NULL = "null";
+    private static final String EMPTY = "";
+    private static final String STOCK_EMPTY = "재고 없음";
+    private static final String QUANTITY_UNIT = "개";
 
     private final String name;
     private final int price;
@@ -60,5 +65,30 @@ public class Product {
 
     public int getTotalQuantity() {
         return defaultQuantity + promotionQuantity;
+    }
+
+    public int getCustomQuantity() {
+        if (promotionName == null) {
+            return defaultQuantity;
+        }
+        return promotionQuantity;
+    }
+
+    public String getCustomPromotionName() {
+        if (promotionName == null) {
+            return EMPTY;
+        }
+        return promotionName;
+    }
+
+    public String getFormattedPrice() {
+        return NumberFormatter.apply(price);
+    }
+
+    public String getQuantityState(final int quantity) {
+        if (quantity == 0) {
+            return STOCK_EMPTY;
+        }
+        return NumberFormatter.apply(quantity) + QUANTITY_UNIT;
     }
 }
