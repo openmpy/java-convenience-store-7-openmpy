@@ -34,15 +34,23 @@ public class Application {
                 .toList();
         final Products products = new Products(productList);
 
-        // 2. 환영 인사와 함께 상품명, 가격, 프로모션 이름, 재고를 안내한다.
-        OutputView.printWelcomeMessage();
-        OutputView.printProductsInfo(products);
+        while (true) {
+            // 2. 환영 인사와 함께 상품명, 가격, 프로모션 이름, 재고를 안내한다.
+            OutputView.printWelcomeMessage();
+            OutputView.printProductsInfo(products);
 
-        final Order order = roadOrder(promotions, products);
+            final Order order = roadOrder(promotions, products);
 
-        // 7. 구매 상품 내역, 증정 상품 내역, 금액 정보를 출력한다.
-        final Receipt receipt = new Receipt(order);
-        receipt.printResult();
+            // 7. 구매 상품 내역, 증정 상품 내역, 금액 정보를 출력한다.
+            final Receipt receipt = new Receipt(order);
+            receipt.printResult();
+
+            final String input = InputView.readRefreshStore();
+            System.out.println();
+            if (!input.equalsIgnoreCase("Y")) {
+                break;
+            }
+        }
     }
 
     private static Order roadOrder(final Promotions promotions, final Products products) {
