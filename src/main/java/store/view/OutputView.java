@@ -1,7 +1,7 @@
 package store.view;
 
-import java.util.List;
 import store.domain.Product;
+import store.domain.Products;
 
 public class OutputView {
 
@@ -11,8 +11,8 @@ public class OutputView {
         System.out.println();
     }
 
-    public static void printProductsInfo(final List<Product> products) {
-        for (final Product product : products) {
+    public static void printProductsInfo(final Products products) {
+        for (final Product product : products.getProducts()) {
             final String formatted = String.format("- %s %s원 %s %s",
                     product.getName(),
                     product.getFormattedPrice(),
