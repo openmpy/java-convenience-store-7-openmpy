@@ -10,6 +10,13 @@ public class Products {
         this.products = products;
     }
 
+    public Product findProductsByName(final String productName) {
+        return products.stream()
+                .filter(product -> product.getName().equals(productName))
+                .findFirst()
+                .orElse(null);
+    }
+
     public List<Product> getProducts() {
         return products;
     }
