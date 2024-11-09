@@ -81,6 +81,9 @@ public class Application {
                 order.checkMembershipDiscount();
 
                 order.validateProductPurchase();
+
+                // 주문 정상
+                order.settle();
                 return order;
             } catch (final IllegalArgumentException e) {
                 System.out.println(e.getMessage());

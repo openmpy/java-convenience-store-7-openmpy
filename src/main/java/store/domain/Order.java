@@ -90,8 +90,8 @@ public class Order {
             if (promotion != null) {
                 continue;
             }
-            orderItems.put(product, cart.getItems().get(product));
             membershipItems.put(product, cart.getItems().get(product));
+            orderItems.put(product, cart.getItems().get(product));
         }
     }
 
@@ -106,9 +106,14 @@ public class Order {
         orderItems.keySet().forEach(product -> {
             final Product findProduct = products.findProductsByName(product.getName());
             if (orderItems.get(product) > findProduct.getTotalQuantity()) {
-                throw new IllegalArgumentException("[ERROR] 재고 수량을 초과하여 구매할 수 없습니다. 다시 입력해 주세요.");
+                throw new IllegalArgumentException(
+                        "[ERROR] 재고 수량을 초과하여 구매할 수 없습니다. 다시 입력해 주세요." + findProduct.getTotalQuantity());
             }
         });
+    }
+
+    public void settle() {
+        orderItems.keySet().forEach(product -> product.decrease(orderItems.get(product)));
     }
 
     public Map<Product, Integer> getOrderItems() {

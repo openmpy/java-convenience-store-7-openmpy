@@ -10,8 +10,8 @@ public class Product {
 
     private final String name;
     private final int price;
-    private final int defaultQuantity;
-    private final int promotionQuantity;
+    private int defaultQuantity;
+    private int promotionQuantity;
     private final String promotionName;
 
     public Product(
@@ -26,6 +26,16 @@ public class Product {
         this.defaultQuantity = defaultQuantity;
         this.promotionQuantity = promotionQuantity;
         this.promotionName = promotionName;
+    }
+
+    public void decrease(final int quantity) {
+        if (promotionQuantity > quantity) {
+            promotionQuantity -= quantity;
+            return;
+        }
+
+        defaultQuantity -= quantity - promotionQuantity;
+        promotionQuantity = 0;
     }
 
     public String getName() {
