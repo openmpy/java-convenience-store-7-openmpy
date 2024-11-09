@@ -67,14 +67,7 @@ public class Application {
 
                 final Order order = new Order(promotions, products, cart);
                 final LocalDate nowDate = DateTimes.now().toLocalDate();
-
                 order.checkBonusProduct(nowDate);
-
-                // 4. 프로모션 적용이 가능한 상품에 대해 고객이 해당 수량보다 적게 가져온 경우, 혜택에 대한 안내 메세지를 출력하고, 그 수량만큼 추가 여부를 입력 받는다.
-                order.checkGetBonusProduct(nowDate);
-
-                // 5. 프로모션 재고가 부족하여 일부 수량을 포로모션 혜택 없이 결제해야 하는 경우, 일부 수량에 대해 정가로 결제할지 여부에 대한 안내 메세지를 출력하고, 입력 받는다.
-                order.checkNotApplyBonusProduct(nowDate);
 
                 // 6. 멤버십 할인 적용 여부를 확인하기 위해 안내 문구를 출력하고, 입력 받는다.
                 order.addMembershipProduct();

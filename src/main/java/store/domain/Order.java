@@ -1,7 +1,9 @@
 package store.domain;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import store.view.InputView;
 
@@ -10,6 +12,7 @@ public class Order {
     private final Map<Product, Integer> orderItems = new LinkedHashMap<>();
     private final Map<Product, Integer> bonusItems = new LinkedHashMap<>();
     private final Map<Product, Integer> membershipItems = new LinkedHashMap<>();
+    private final List<Product> productsToRemove = new ArrayList<>();
 
     private final Promotions promotions;
     private final Products products;
@@ -24,72 +27,48 @@ public class Order {
     }
 
     public void checkBonusProduct(final LocalDate date) {
-        for (final Product product : cart.getItems().keySet()) {
+        cart.getItems().keySet().forEach(product -> {
+            final Integer purchaseQuantity = cart.getItems().get(product);
             final Promotion promotion = promotions.findPromotionsByName(product.getPromotionName());
             if (promotion == null) {
-                continue;
+                return;
             }
-            if (cart.getItems().get(product) % promotion.getTotalQuantity() == 0) {
-                if (promotion.isApplyDate(date)) {
-                    bonusItems.put(product, cart.getItems().get(product) / promotion.getTotalQuantity());
+            if (!promotion.isApplyDate(date)) {
+                return;
+            }
+            final int buyQuantity = promotion.getBuyQuantity();
+            final int getQuantity = promotion.getGetQuantity();
+            final int promotionQuantity = product.getPromotionQuantity();
+            if (purchaseQuantity == buyQuantity && promotionQuantity >= purchaseQuantity + getQuantity) {
+                final String input = InputView.readGetBonusProduct(product.getName(), getQuantity);
+                if (input.equalsIgnoreCase("Y")) {
+                    orderItems.put(product, purchaseQuantity + getQuantity);
+                    bonusItems.put(product, getQuantity);
+                    productsToRemove.add(product);
+                    return;
                 }
-                orderItems.put(product, cart.getItems().get(product));
             }
-        }
-    }
-
-    public void checkGetBonusProduct(final LocalDate date) {
-        for (final Product product : cart.getItems().keySet()) {
-            final Promotion promotion = promotions.findPromotionsByName(product.getPromotionName());
-            if (promotion == null) {
-                continue;
+            if (promotionQuantity >= purchaseQuantity) {
+                orderItems.put(product, purchaseQuantity);
+                bonusItems.put(product, promotion.getBonusProduct(purchaseQuantity));
+                productsToRemove.add(product);
+                return;
             }
-
-            if (cart.getItems().get(product) == promotion.getBuyQuantity()) {
-                int bonusQuantity = 0;
-                if (promotion.isApplyDate(date)) {
-                    final String input = InputView.readGetBonusProduct(product.getName(), promotion.getGetQuantity());
-                    if (input.equalsIgnoreCase("Y")) {
-                        bonusQuantity = promotion.getGetQuantity();
-                        bonusItems.put(product, bonusQuantity);
-                    }
-                }
-                orderItems.put(product, cart.getItems().get(product) + bonusQuantity);
+            final int remainingQuantity = purchaseQuantity - promotionQuantity;
+            final int remainingPromotionQuantity = promotionQuantity % promotion.getTotalQuantity();
+            final String input = InputView.readNotApplyBonusProduct(
+                    product.getName(), remainingQuantity + remainingPromotionQuantity);
+            if (input.equalsIgnoreCase("Y")) {
+                orderItems.put(product, purchaseQuantity);
+                bonusItems.put(product, promotion.getBonusProduct(promotionQuantity) * promotion.getGetQuantity());
+                productsToRemove.add(product);
             }
-        }
-    }
-
-    public void checkNotApplyBonusProduct(final LocalDate date) {
-        for (final Product product : cart.getItems().keySet()) {
-            final Promotion promotion = promotions.findPromotionsByName(product.getPromotionName());
-            if (promotion == null) {
-                continue;
-            }
-
-            if (cart.getItems().get(product) > product.getPromotionQuantity()) {
-                final int notApplyPromotionQuantity = cart.getItems().get(product) -
-                        promotion.getTotalQuantity() * (product.getPromotionQuantity() / promotion.getTotalQuantity());
-                if (promotion.isApplyDate(date)) {
-                    final String input = InputView.readNotApplyBonusProduct(product.getName(),
-                            notApplyPromotionQuantity);
-                    if (input.equalsIgnoreCase("Y")) {
-                        final int bonusProductQuantity =
-                                (cart.getItems().get(product) - notApplyPromotionQuantity)
-                                        / promotion.getTotalQuantity();
-                        bonusItems.put(product, bonusProductQuantity);
-                    }
-                }
-                orderItems.put(product, cart.getItems().get(product));
-            }
-        }
+        });
+        productsToRemove.forEach(cart.getItems()::remove);
     }
 
     public void addMembershipProduct() {
         for (final Product product : cart.getItems().keySet()) {
-            final Promotion promotion = promotions.findPromotionsByName(product.getPromotionName());
-            if (promotion != null) {
-                continue;
-            }
             membershipItems.put(product, cart.getItems().get(product));
             orderItems.put(product, cart.getItems().get(product));
         }
@@ -106,8 +85,7 @@ public class Order {
         orderItems.keySet().forEach(product -> {
             final Product findProduct = products.findProductsByName(product.getName());
             if (orderItems.get(product) > findProduct.getTotalQuantity()) {
-                throw new IllegalArgumentException(
-                        "[ERROR] 재고 수량을 초과하여 구매할 수 없습니다. 다시 입력해 주세요." + findProduct.getTotalQuantity());
+                throw new IllegalArgumentException("[ERROR] 재고 수량을 초과하여 구매할 수 없습니다. 다시 입력해 주세요.");
             }
         });
     }
