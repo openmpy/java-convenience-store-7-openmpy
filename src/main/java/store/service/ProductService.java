@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import store.dto.ProductPurchaseDto;
-import store.exception.InvalidInputException;
 import store.exception.InvalidPurchaseException;
 import store.util.StringSplitter;
 
