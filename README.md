@@ -232,6 +232,68 @@ N
 
 ---
 
+## 프로젝트 구조
+
+```
+├── main
+│   ├── java
+│   │   └── store
+│   │       ├── Application.java
+│   │       ├── controller
+│   │       │   └── StoreController.java
+│   │       ├── domain
+│   │       │   ├── Cart.java
+│   │       │   ├── Order.java
+│   │       │   ├── Product.java
+│   │       │   ├── Products.java
+│   │       │   ├── Promotion.java
+│   │       │   ├── Promotions.java
+│   │       │   └── Receipt.java
+│   │       ├── dto
+│   │       │   └── ProductPurchaseDto.java
+│   │       ├── exception
+│   │       │   ├── InvalidInputException.java
+│   │       │   ├── InvalidPurchaseException.java
+│   │       │   ├── NotFoundProductException.java
+│   │       │   ├── OverProductQuantityException.java
+│   │       │   └── constants
+│   │       │       └── ErrorConstants.java
+│   │       ├── service
+│   │       │   └── ProductService.java
+│   │       ├── util
+│   │       │   ├── FileLoader.java
+│   │       │   ├── NumberFormatter.java
+│   │       │   ├── StringParser.java
+│   │       │   └── StringSplitter.java
+│   │       └── view
+│   │           ├── InputView.java
+│   │           └── OutputView.java
+│   └── resources
+│       ├── products.md
+│       └── promotions.md
+└── test
+    └── java
+        └── store
+            ├── ApplicationTest.java
+            ├── domain
+            │   ├── CartTest.java
+            │   ├── OrderTest.java
+            │   ├── ProductTest.java
+            │   ├── ProductsTest.java
+            │   ├── PromotionTest.java
+            │   └── PromotionsTest.java
+            ├── service
+            │   └── ProductServiceTest.java
+            └── util
+                ├── FileLoaderTest.java
+                ├── NumberFormatterTest.java
+                ├── StringParserTest.java
+                └── StringSplitterTest.java
+
+```
+
+---
+
 ## 테스트 커버리지
 
 ![test_coverage.png](docs/test_coverage.png)
