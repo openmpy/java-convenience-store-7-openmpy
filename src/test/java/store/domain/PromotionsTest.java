@@ -10,14 +10,12 @@ import org.junit.jupiter.api.Test;
 
 class PromotionsTest {
 
-    private Promotion promotion01;
-    private Promotion promotion02;
     private List<Promotion> promotionList;
 
     @BeforeEach
     void setUp() {
-        promotion01 = new Promotion("1+1", 1, 1, LocalDate.now(), LocalDate.now().plusDays(1));
-        promotion02 = new Promotion("2+1", 2, 1, LocalDate.now(), LocalDate.now().plusDays(1));
+        Promotion promotion01 = new Promotion("1+1", 1, 1, LocalDate.now(), LocalDate.now().plusDays(1));
+        Promotion promotion02 = new Promotion("2+1", 2, 1, LocalDate.now(), LocalDate.now().plusDays(1));
         promotionList = List.of(promotion01, promotion02);
     }
 

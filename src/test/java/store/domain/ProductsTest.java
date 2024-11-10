@@ -9,16 +9,13 @@ import org.junit.jupiter.api.Test;
 
 class ProductsTest {
 
-    private Product product01;
-    private Product product02;
-    private Product product03;
     private List<Product> productList;
 
     @BeforeEach
     void setUp() {
-        product01 = new Product("콜라", 1000, 0, 10, "2+1");
-        product02 = new Product("콜라", 1000, 10, 0, null);
-        product03 = new Product("사이다", 1500, 10, 0, null);
+        Product product01 = new Product("콜라", 1000, 0, 10, "2+1");
+        Product product02 = new Product("콜라", 1000, 10, 0, null);
+        Product product03 = new Product("사이다", 1500, 10, 0, null);
 
         productList = List.of(product01, product02, product03);
     }
