@@ -21,18 +21,8 @@ public class Application {
 
     public static void main(String[] args) {
         // 1. 상품 목록과 행사 목록을 파일 입출력을 통해 불러온다.
-        final List<String> loadPromotions = FileLoader.loadPromotions();
-        final List<String> loadProducts = FileLoader.loadProducts();
-
-        final List<Promotion> promotionList = loadPromotions.stream()
-                .map(StringParser::parsePromotion)
-                .toList();
-        final Promotions promotions = new Promotions(promotionList);
-
-        final List<Product> productList = loadProducts.stream()
-                .map(StringParser::parseProduct)
-                .toList();
-        final Products products = new Products(productList);
+        final Promotions promotions = loadPromotionFile();
+        final Products products = loadProductFile();
 
         while (true) {
             // 2. 환영 인사와 함께 상품명, 가격, 프로모션 이름, 재고를 안내한다.
@@ -51,6 +41,22 @@ public class Application {
                 break;
             }
         }
+    }
+
+    private static Promotions loadPromotionFile() {
+        final List<String> loadPromotions = FileLoader.loadPromotions();
+        final List<Promotion> promotions = loadPromotions.stream()
+                .map(StringParser::parsePromotion)
+                .toList();
+        return new Promotions(promotions);
+    }
+
+    private static Products loadProductFile() {
+        final List<String> loadProducts = FileLoader.loadProducts();
+        final List<Product> products = loadProducts.stream()
+                .map(StringParser::parseProduct)
+                .toList();
+        return new Products(products);
     }
 
     private static Order roadOrder(final Promotions promotions, final Products products) {
