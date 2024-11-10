@@ -4,7 +4,6 @@ import store.util.NumberFormatter;
 
 public class Product {
 
-    private static final String NULL = "null";
     private static final String STOCK_EMPTY = "재고 없음";
     private static final String QUANTITY_UNIT = "개";
 

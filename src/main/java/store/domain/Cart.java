@@ -2,6 +2,7 @@ package store.domain;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
+import store.exception.NotFoundProductException;
 
 public class Cart {
 
@@ -10,7 +11,7 @@ public class Cart {
     public void addProduct(final Products products, final String productName, final int quantity) {
         final Product product = products.findProductsByName(productName);
         if (product == null) {
-            throw new IllegalArgumentException("[ERROR] 존재하지 않는 상품입니다. 다시 입력해 주세요.");
+            throw new NotFoundProductException();
         }
 
         items.put(product, quantity);

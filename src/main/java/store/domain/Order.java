@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import store.exception.InvalidInputException;
+import store.exception.OverProductQuantityException;
 import store.view.InputView;
 
 public class Order {
@@ -44,7 +46,7 @@ public class Order {
     public void checkMembershipDiscount() {
         final String input = InputView.readMembershipDiscount();
         if (!input.equalsIgnoreCase("Y") && !input.equalsIgnoreCase("N")) {
-            throw new IllegalArgumentException("[ERROR] 잘못된 입력입니다. 다시 입력해 주세요.");
+            throw new InvalidInputException();
         }
         if (input.equalsIgnoreCase("Y")) {
             isMembershipDiscount = true;
@@ -55,7 +57,7 @@ public class Order {
         orderItems.keySet().forEach(product -> {
             final Product findProduct = products.findProductsByName(product.getName());
             if (orderItems.get(product) > findProduct.getTotalQuantity()) {
-                throw new IllegalArgumentException("[ERROR] 재고 수량을 초과하여 구매할 수 없습니다. 다시 입력해 주세요.");
+                throw new OverProductQuantityException();
             }
         });
     }
@@ -86,7 +88,7 @@ public class Order {
     private void applyBonus(final Product product, final int purchaseQuantity, final Promotion promotion) {
         final String input = InputView.readGetBonusProduct(product.getName(), promotion.getGetQuantity());
         if (!input.equalsIgnoreCase("Y") && !input.equalsIgnoreCase("N")) {
-            throw new IllegalArgumentException("[ERROR] 잘못된 입력입니다. 다시 입력해 주세요.");
+            throw new InvalidInputException();
         }
         if (input.equalsIgnoreCase("Y")) {
             orderItems.put(product, purchaseQuantity + promotion.getGetQuantity());
@@ -114,7 +116,7 @@ public class Order {
         final String input = InputView.readNotApplyBonusProduct(
                 product.getName(), remainingQuantity + remainingPromotionQuantity);
         if (!input.equalsIgnoreCase("Y") && !input.equalsIgnoreCase("N")) {
-            throw new IllegalArgumentException("[ERROR] 잘못된 입력입니다. 다시 입력해 주세요.");
+            throw new InvalidInputException();
         }
         if (input.equalsIgnoreCase("Y")) {
             orderItems.put(product, purchaseQuantity);
