@@ -43,6 +43,9 @@ public class Order {
 
     public void checkMembershipDiscount() {
         final String input = InputView.readMembershipDiscount();
+        if (!input.equalsIgnoreCase("Y") && !input.equalsIgnoreCase("N")) {
+            throw new IllegalArgumentException("[ERROR] 잘못된 입력입니다. 다시 입력해 주세요.");
+        }
         if (input.equalsIgnoreCase("Y")) {
             isMembershipDiscount = true;
         }
@@ -82,6 +85,9 @@ public class Order {
 
     private void applyBonus(final Product product, final int purchaseQuantity, final Promotion promotion) {
         final String input = InputView.readGetBonusProduct(product.getName(), promotion.getGetQuantity());
+        if (!input.equalsIgnoreCase("Y") && !input.equalsIgnoreCase("N")) {
+            throw new IllegalArgumentException("[ERROR] 잘못된 입력입니다. 다시 입력해 주세요.");
+        }
         if (input.equalsIgnoreCase("Y")) {
             orderItems.put(product, purchaseQuantity + promotion.getGetQuantity());
             bonusItems.put(product, promotion.getGetQuantity());
@@ -107,6 +113,9 @@ public class Order {
         final int remainingPromotionQuantity = promotionQuantity % promotion.getTotalQuantity();
         final String input = InputView.readNotApplyBonusProduct(
                 product.getName(), remainingQuantity + remainingPromotionQuantity);
+        if (!input.equalsIgnoreCase("Y") && !input.equalsIgnoreCase("N")) {
+            throw new IllegalArgumentException("[ERROR] 잘못된 입력입니다. 다시 입력해 주세요.");
+        }
         if (input.equalsIgnoreCase("Y")) {
             orderItems.put(product, purchaseQuantity);
             bonusItems.put(product, promotion.getBonusProduct(promotionQuantity) * promotion.getGetQuantity());
