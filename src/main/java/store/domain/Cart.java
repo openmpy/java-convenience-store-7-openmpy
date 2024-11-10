@@ -2,6 +2,7 @@ package store.domain;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
+import store.exception.InvalidInputException;
 import store.exception.NotFoundProductException;
 
 public class Cart {
@@ -12,6 +13,9 @@ public class Cart {
         final Product product = products.findProductsByName(productName);
         if (product == null) {
             throw new NotFoundProductException();
+        }
+        if (quantity <= 0) {
+            throw new InvalidInputException();
         }
 
         items.put(product, quantity);
