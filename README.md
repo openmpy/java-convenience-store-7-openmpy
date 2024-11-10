@@ -229,3 +229,9 @@ Y
 감사합니다. 구매하고 싶은 다른 상품이 있나요? (Y/N)
 N
 ```
+
+---
+
+## 테스트 커버리지
+
+![test_coverage.png](docs/test_coverage.png)
