@@ -5,6 +5,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import store.dto.ProductPurchaseDto;
 import store.exception.InvalidInputException;
+import store.exception.InvalidPurchaseException;
 import store.util.StringSplitter;
 
 public class ProductService {
@@ -28,7 +29,7 @@ public class ProductService {
 
     private void validateInput(final Matcher matcher) {
         if (!matcher.matches()) {
-            throw new InvalidInputException();
+            throw new InvalidPurchaseException();
         }
     }
 }
