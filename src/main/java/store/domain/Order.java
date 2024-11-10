@@ -9,6 +9,9 @@ import store.view.InputView;
 
 public class Order {
 
+    private static final double DISCOUNT_RATE = 0.3;
+    private static final int MAX_MEMBERSHIP_PRICE = 8000;
+
     private final Map<Product, Integer> orderItems = new LinkedHashMap<>();
     private final Map<Product, Integer> bonusItems = new LinkedHashMap<>();
     private final Map<Product, Integer> membershipItems = new LinkedHashMap<>();
@@ -52,26 +55,6 @@ public class Order {
                 throw new IllegalArgumentException("[ERROR] 재고 수량을 초과하여 구매할 수 없습니다. 다시 입력해 주세요.");
             }
         });
-    }
-
-    public void settle() {
-        orderItems.keySet().forEach(product -> product.decrease(orderItems.get(product)));
-    }
-
-    public Map<Product, Integer> getOrderItems() {
-        return orderItems;
-    }
-
-    public Map<Product, Integer> getBonusItems() {
-        return bonusItems;
-    }
-
-    public Map<Product, Integer> getMembershipItems() {
-        return membershipItems;
-    }
-
-    public boolean isMembershipDiscount() {
-        return isMembershipDiscount;
     }
 
     private void processProduct(final Product product, final LocalDate date) {
@@ -133,5 +116,57 @@ public class Order {
 
     private void removeProcessedProducts() {
         productsToRemove.forEach(cart.getItems()::remove);
+    }
+
+    public void settle() {
+        orderItems.keySet().forEach(product -> product.decrease(orderItems.get(product)));
+    }
+
+    public Map<Product, Integer> getOrderItems() {
+        return orderItems;
+    }
+
+    public Map<Product, Integer> getBonusItems() {
+        return bonusItems;
+    }
+
+    public Map<Product, Integer> getMembershipItems() {
+        return membershipItems;
+    }
+
+    public boolean isMembershipDiscount() {
+        return isMembershipDiscount;
+    }
+
+    public int getTotalPurchaseQuantity() {
+        return orderItems.values()
+                .stream()
+                .mapToInt(Integer::intValue)
+                .sum();
+    }
+
+    public int getTotalPurchasePrice() {
+        return orderItems.entrySet()
+                .stream()
+                .mapToInt(entry -> entry.getValue() * entry.getKey().getPrice())
+                .sum();
+    }
+
+    public int getTotalBonusProductPrice() {
+        return bonusItems.entrySet()
+                .stream()
+                .mapToInt(entry -> entry.getValue() * entry.getKey().getPrice())
+                .sum();
+    }
+
+    public int getTotalMembershipPrice() {
+        if (!isMembershipDiscount) {
+            return 0;
+        }
+        final int totalMembershipPrice = membershipItems.entrySet()
+                .stream()
+                .mapToInt(entry -> entry.getValue() * entry.getKey().getPrice())
+                .sum();
+        return (int) Math.min(totalMembershipPrice * DISCOUNT_RATE, MAX_MEMBERSHIP_PRICE);
     }
 }
