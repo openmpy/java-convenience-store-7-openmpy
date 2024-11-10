@@ -7,20 +7,20 @@ import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
+import store.exception.InvalidInputException;
 import store.exception.NotFoundProductException;
 
 class CartTest {
 
-    private Product product01;
-    private Product product02;
-    private Product product03;
     private Products products;
 
     @BeforeEach
     void setUp() {
-        product01 = new Product("콜라", 1000, 0, 10, "2+1");
-        product02 = new Product("콜라", 1000, 10, 0, null);
-        product03 = new Product("사이다", 1500, 10, 0, null);
+        Product product01 = new Product("콜라", 1000, 0, 10, "2+1");
+        Product product02 = new Product("콜라", 1000, 10, 0, null);
+        Product product03 = new Product("사이다", 1500, 10, 0, null);
         products = new Products(List.of(product01, product02, product03));
     }
 
@@ -47,5 +47,17 @@ class CartTest {
         // when & then
         assertThatThrownBy(() -> cart.addProduct(products, "맥주", 10))
                 .isInstanceOf(NotFoundProductException.class);
+    }
+
+    @DisplayName("[예외] 상품 구매 갯수가 양수가 아닐 경우")
+    @ParameterizedTest(name = "입력값: {0}")
+    @ValueSource(ints = {-1, 0})
+    void 예외_cart_test_02(final int input) {
+        // given
+        final Cart cart = new Cart();
+
+        // when & then
+        assertThatThrownBy(() -> cart.addProduct(products, "콜라", input))
+                .isInstanceOf(InvalidInputException.class);
     }
 }
