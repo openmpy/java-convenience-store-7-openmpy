@@ -141,6 +141,10 @@ public class Order {
         return bonusItems;
     }
 
+    public Map<Product, Integer> getMembershipItems() {
+        return membershipItems;
+    }
+
     public int getTotalPurchaseQuantity() {
         return orderItems.values()
                 .stream()
