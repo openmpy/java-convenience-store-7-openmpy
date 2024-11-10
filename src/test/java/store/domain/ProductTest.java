@@ -19,6 +19,8 @@ class ProductTest {
         assertThat(product.getDefaultQuantity()).isZero();
         assertThat(product.getPromotionQuantity()).isEqualTo(10);
         assertThat(product.getPromotionName()).isEqualTo("2+1");
+        assertThat(product.getTotalQuantity()).isEqualTo(10);
+        assertThat(product.getFormattedPrice()).isEqualTo("1,000");
     }
 
     @DisplayName("[통과] 프로모션이 존재하지 않는 Product 클래스 생성")
@@ -33,5 +35,7 @@ class ProductTest {
         assertThat(product.getDefaultQuantity()).isEqualTo(10);
         assertThat(product.getPromotionQuantity()).isZero();
         assertThat(product.getPromotionName()).isNull();
+        assertThat(product.getTotalQuantity()).isEqualTo(10);
+        assertThat(product.getFormattedPrice()).isEqualTo("1,000");
     }
 }
