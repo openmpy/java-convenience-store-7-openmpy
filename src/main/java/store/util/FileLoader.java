@@ -6,6 +6,10 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.stream.Stream;
+import store.domain.Product;
+import store.domain.Products;
+import store.domain.Promotion;
+import store.domain.Promotions;
 
 public class FileLoader {
 
@@ -13,12 +17,18 @@ public class FileLoader {
     private static final String PRODUCTS_FILE_PATH = "src/main/resources/products.md";
     private static final int SKIP_LINES_COUNT = 1;
 
-    public static List<String> loadPromotions() {
-        return loadFile(PROMOTIONS_FILE_PATH);
+    public static Promotions loadPromotions() {
+        final List<Promotion> promotions = loadFile(PROMOTIONS_FILE_PATH).stream()
+                .map(StringParser::parsePromotion)
+                .toList();
+        return new Promotions(promotions);
     }
 
-    public static List<String> loadProducts() {
-        return loadFile(PRODUCTS_FILE_PATH);
+    public static Products loadProducts() {
+        final List<Product> products = loadFile(PRODUCTS_FILE_PATH).stream()
+                .map(StringParser::parseProduct)
+                .toList();
+        return new Products(products);
     }
 
     private static List<String> loadFile(final String filePath) {
